@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <!-- Root element: service -->
+    <xs:element name="service">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- package statement: required, only one -->
+                <xs:element name="package" type="xs:string" />
+
+                <!-- optional extends, one or many -->
+                <xs:element name="extends" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="class" type="xs:string" maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- optional imports, zero to many -->
+                <xs:element name="import" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+
+                <!-- optional abstract methods, zero to many -->
+                <xs:element name="abstract_method" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Only 1 or 0 visibility modifiers -->
+                            <xs:element name="visibility" type="xs:string" minOccurs="0" maxOccurs="1" />
+                            
+                            <!-- optional arguments, zero to many -->
+                            <xs:element name="arguments" minOccurs="0" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!-- optional parameters, zero to many -->
+                                        <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <!-- data type of parameter -->
+                                                        <xs:attribute name="type" type="xs:string" use="required" />
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- optional exceptions, zero to many -->
+                            <xs:element name="exceptions" minOccurs="0" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="exception" type="xs:string" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- return type required -->
+                            <xs:element name="return" type="xs:string" />
+                        </xs:sequence>
+
+                        <!-- method name required -->
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+
+            <!-- id attribute for the service -->
+            <xs:attribute name="id" type="xs:string" use="required" />
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
